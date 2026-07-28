@@ -9,6 +9,7 @@
     "start": "npm run dev"
   },
   "dependencies": {
+    "framer-motion": "^12.42.2",
     "umi": "^4.6.81"
   },
   "devDependencies": {
