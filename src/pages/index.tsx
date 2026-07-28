@@ -354,6 +354,7 @@ export default function HomePage() {
   const parallaxY = useTransform(mouseY, (val) => val);
 
   const [navVisible, setNavVisible] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
   const handleScroll = useCallback(() => {
@@ -364,6 +365,7 @@ export default function HomePage() {
       setNavVisible(true);
     } else if (diff > 0) {
       setNavVisible(false);
+      setMobileMenuOpen(false);
     } else {
       setNavVisible(true);
     }
@@ -512,7 +514,38 @@ export default function HomePage() {
                   立即选购
                 </motion.button>
               </div>
+              <button 
+                className="mobile-menu-btn"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                <span className={`hamburger ${mobileMenuOpen ? 'open' : ''}`}>
+                  <span /><span /><span />
+                </span>
+              </button>
             </div>
+            <AnimatePresence>
+              {mobileMenuOpen && (
+                <motion.div 
+                  className="mobile-menu"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ul className="mobile-nav-links">
+                    {['首页', '产品中心', '品牌故事', '全球门店', '服务支持'].map((item, i) => (
+                      <li key={i} onClick={() => setMobileMenuOpen(false)}>
+                        <a href="#">{item}</a>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mobile-nav-actions">
+                    <button className="btn-ghost">EN / 中文</button>
+                    <button className="btn-primary">立即选购</button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.nav>
         )}
       </AnimatePresence>
